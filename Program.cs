@@ -1,16 +1,15 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 string fileContent = default;
-
 bool isFileRead = false;
+string fileName = default;
 
 do
 {
     try
     {
         Console.WriteLine("Enter the name of file which you want to read:");
-        var fileName = Console.ReadLine();
+        fileName = Console.ReadLine();
 
         fileContent = File.ReadAllText(fileName);
         isFileRead = true;
@@ -22,13 +21,29 @@ do
     catch (ArgumentException ex)
     {
         Console.WriteLine("The name of file cannot be empty");
-    }catch (FileNotFoundException ex)
+    }
+    catch (FileNotFoundException ex)
     {
         Console.WriteLine("There is no file with that name");
     }
 } while (!isFileRead);
 
-var videoGames = JsonSerializer.Deserialize<List<VideoGame>>(fileContent);
+List<VideoGame> videoGames = default;
+
+try
+{
+    videoGames = JsonSerializer.Deserialize<List<VideoGame>>(fileContent);
+}
+catch (JsonException ex)
+{
+    var originalConsoleColor = Console.ForegroundColor;
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"Json in {fileName} file was not in a valid format. JSON body:");
+    Console.WriteLine(fileContent);
+    Console.ForegroundColor = originalConsoleColor;
+    
+    throw new JsonException($"{ex.Message} The file is: {fileName}", ex);
+}
 
 if (videoGames.Count > 0)
 {

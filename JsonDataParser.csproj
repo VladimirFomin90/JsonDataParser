@@ -7,4 +7,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Include=".idea\.idea.JsonDataParser\.idea\indexLayout.xml" />
+      <Content Include=".idea\.idea.JsonDataParser\.idea\projectSettingsUpdater.xml" />
+      <Content Include=".idea\.idea.JsonDataParser\.idea\vcs.xml" />
+      <Content Include=".idea\.idea.JsonDataParser\.idea\workspace.xml" />
+    </ItemGroup>
+
 </Project>
